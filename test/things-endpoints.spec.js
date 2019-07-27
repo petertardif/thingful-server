@@ -49,7 +49,7 @@ describe('Things Endpoints', function() {
         it(`responds with 401 'Missing basic token' when no basic token`, () => {
           return supertest(app)
             .get(endpoint.path)
-            .expect(401, { error: `Missing basic token` })
+            .expect(401, { error: `Missing bearer token` })
         })
   
         it(`responds 401 'Unauthorized request' when no credentials in token`, () => {
@@ -65,14 +65,6 @@ describe('Things Endpoints', function() {
           return supertest(app)
             .get(endpoint.path)
             .set('Authorization', helpers.makeAuthHeader(userInvalidCreds))
-            .expect(401, { error: `Unauthorized request` })
-        })
-  
-        it(`responds 401, 'Unauthorized request' when invalid password`, () => {
-          const userInvalidPass = { user_name: testUsers[0].user_name, password: 'wrong' }
-          return supertest(app)
-            .get(endpoint.path)
-            .set('Authorization', helpers.makeAuthHeader(userInvalidPass))
             .expect(401, { error: `Unauthorized request` })
         })
       })
